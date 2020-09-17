@@ -2,14 +2,10 @@ package com.example.sampleapp.Controller;
 
 import com.example.sampleapp.Controller.response.ErrorClass;
 import com.example.sampleapp.Service.BuyCorsesRepo;
-import com.example.sampleapp.Service.UserLoginRepo;
 import com.example.sampleapp.model.BuyCourses;
-import com.example.sampleapp.model.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +19,19 @@ public class BuyCoursesController {
 
 
     @PostMapping("/buyCourse")
-    public Map<String,String> buyCourse( @RequestBody List<BuyCourses> buyCourses){
-       //check if user already exist
-       //put in try catch block
-       //create a custom exception/
-       //change the return type
-       Map<String,String> map = new HashMap<>();
-       String message="";
-        if (buyCourses!=null){
-            message="Your record save successfully";
-            map.put("message",message);
+    public Map<String, String> buyCourse(@RequestBody List<BuyCourses> buyCourses) {
+        //check if user already exist
+        //put in try catch block
+        //create a custom exception/
+        //change the return type
+        Map<String, String> map = new HashMap<>();
+        String message = "";
+        if (buyCourses != null) {
+            message = "Your record save successfully";
+            map.put("message", message);
             buyCorsesRepo.saveAll(buyCourses);
-        }else {
-            map.put("errorMessage",message);
+        } else {
+            map.put("errorMessage", message);
 
         }
         return map;
@@ -48,16 +44,16 @@ public class BuyCoursesController {
 //    }
 
     @GetMapping("/getBuyCourse")
-    public Object getUser(){
+    public Object getUser() {
 
-        ErrorClass errorClass= new ErrorClass();
+        ErrorClass errorClass = new ErrorClass();
 
         try {
-           listBuyCourse = buyCorsesRepo.findAll();
-            if(listBuyCourse!=null){
+            listBuyCourse = buyCorsesRepo.findAll();
+            if (listBuyCourse != null) {
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             errorClass.setMessage("service error！：" + e.getMessage());
             errorClass.setErrorCode("affected：" + e.getCause());
             e.printStackTrace();
@@ -65,20 +61,20 @@ public class BuyCoursesController {
 
         }
 
-        return listBuyCourse ;
+        return listBuyCourse;
     }
 
 
     @PostMapping("/getBuyCourseId{ProId}")
-    public Object getCourseCatId(@RequestParam String ProId ){
+    public Object getCourseCatId(@RequestParam String ProId) {
 
 
-        ErrorClass errorClass= new ErrorClass();
+        ErrorClass errorClass = new ErrorClass();
         BuyCourses listBuyCourses;
         try {
-             listBuyCourses =  buyCorsesRepo.findBuyCoursesByProId(ProId);
-              boolean mess= listBuyCourses.getDuration().length()>=0;
-        }catch (Exception e){
+            listBuyCourses = buyCorsesRepo.findBuyCoursesByProId(ProId);
+            boolean mess = listBuyCourses.getDuration().length() >= 0;
+        } catch (Exception e) {
             errorClass.setErrorCode("service error！：" + e.getMessage());
             errorClass.setMessage("Please insert required field");
             e.printStackTrace();
@@ -86,7 +82,7 @@ public class BuyCoursesController {
 
         }
 
-        return listBuyCourses ;
+        return listBuyCourses;
     }
 //
 //    @GetMapping("/userLogin/{email}")
